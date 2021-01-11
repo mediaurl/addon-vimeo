@@ -1,4 +1,4 @@
-import { createWorkerAddon } from '@watchedcom/sdk';
+import { createWorkerAddon, runCli } from '@mediaurl/sdk';
 import vimeo from './vimeo';
 
 export const vimeoAddon = createWorkerAddon({
@@ -46,3 +46,5 @@ vimeoAddon.registerActionHandler('item', async (input, ctx) => {
 vimeoAddon.registerActionHandler('source', async (input, ctx) => {
   return [];
 });
+
+runCli([vimeoAddon]);

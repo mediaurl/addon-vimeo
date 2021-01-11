@@ -1,4 +1,4 @@
-import { ChannelItem, DirectoryItem, DirectoryFeatures, DirectoryRequest } from '@watchedcom/sdk';
+import { ChannelItem, DirectoryItem, DirectoryFeatures, DirectoryRequest } from '@mediaurl/sdk';
 import fetch from 'node-fetch';
 import { parse as parseUrl, format as formatUrl } from 'url';
 import { orderBy } from 'lodash';
