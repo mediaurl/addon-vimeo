@@ -47,4 +47,4 @@ vimeoAddon.registerActionHandler('source', async (input, ctx) => {
   return [];
 });
 
-runCli([vimeoAddon]);
+runCli([vimeoAddon], { singleMode: true });
