@@ -27,7 +27,8 @@ export const vimeoAddon = createWorkerAddon({
 
 vimeoAddon.registerActionHandler('directory', async (input, ctx) => {
   if (input.filter && input.filter.category) {
-    return await vimeo.getChannelsByCategory(input);
+    // return await vimeo.getChannelsByCategory(input);
+    return vimeo.getFeaturedVideosInCategory(input);
   } else if (input.filter && input.filter.channel) {
     return await vimeo.getVideosByChannel(input);
   } else if (input.id === 'channels') {
