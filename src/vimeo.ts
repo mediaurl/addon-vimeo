@@ -50,7 +50,7 @@ class VimeoApi {
   async getChannels(input: DirectoryRequest) {
     const limit = 25;
     const filter = input.filter || {};
-    const page: number = input.cursor === null ? 0 : <number>input.cursor || 0;
+    const page: number = <number>input.cursor || 1;
     return await this.get(`channels`, {
       ...filter,
       per_page: limit,
@@ -70,10 +70,26 @@ class VimeoApi {
     });
   }
 
+  async getFeaturedVideosInCategory(input: DirectoryRequest) {
+    const limit = 25;
+    const page: number = <number>input.cursor || 1;
+
+    return this.get(`categories/${input.filter.category}/videos`, {
+      sort: input.filter.sort || 'featured',
+      per_page: limit,
+      page: page > 0 ? page : 1,
+    }).then(({ total, data }) => {
+      return {
+        nextCursor: total > limit * page ? page + 1 : null,
+        items: data.map(_ => this.convertVideo(_)),
+      };
+    });
+  }
+
   async getChannelsByCategory(input: DirectoryRequest) {
     const limit = 25;
     const filter = input.filter || {};
-    const page: number = input.cursor === null ? 0 : <number>input.cursor || 0;
+    const page: number = <number>input.cursor || 1;
     return await this.get(`categories/${filter.category}/channels`, {
       sort: filter.sort || 'date',
       per_page: limit,
@@ -95,7 +111,7 @@ class VimeoApi {
 
   async searchChannels(input: DirectoryRequest) {
     const limit = 25;
-    const page: number = input.cursor === null ? 0 : <number>input.cursor || 0;
+    const page: number = <number>input.cursor || 1;
     return await this.get('channels', {
       query: input.search,
       per_page: limit,
@@ -117,7 +133,7 @@ class VimeoApi {
 
   async getCategories(input: DirectoryRequest) {
     const limit = 100;
-    const page = (input.cursor === null ? 0 : <number>input.cursor || 0) + 1;
+    const page: number = <number>input.cursor || 1;
     return await this.get('categories', {
       per_page: limit,
       page,
@@ -136,7 +152,7 @@ class VimeoApi {
   async getVideosByChannel(input: DirectoryRequest) {
     const limit = 25;
     const filter = input.filter || {};
-    const page: number = input.cursor === null ? 0 : <number>input.cursor || 0;
+    const page: number = <number>input.cursor || 1;
     return await this.get(`channels/${filter.channel}/videos`, {
       sort: filter.sort || 'default',
       per_page: limit,
